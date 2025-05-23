@@ -1,0 +1,213 @@
+{{ 'section-main-collection-upsell.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'section-main-collection-upsell.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding page-width">
+  <div class="collection-upsell">
+    <h2 class="collection-upsell__heading">{{ collections[section.settings.collection].title | escape }}</h2>
+
+    <div class="collection-upsell__carousel-container" data-rows="{{ section.settings.carousel_rows }}">
+      <!-- Carousel wrapper -->
+      <div class="collection-upsell__carousel" data-carousel>
+        <ul
+          class="collection-upsell__grid collection-upsell__grid--{{ section.settings.carousel_rows }}-rows"
+          role="list"
+        >
+          {%- for product in collections[section.settings.collection].products -%}
+            <li class="collection-upsell__item" role="listitem">
+              <div class="collection-upsell__card">
+                <div class="collection-upsell__image-container">
+                  {%- if product.featured_media -%}
+                    <img
+                      src="{{ product.featured_media | image_url: width: 533 }}"
+                      alt="{{ product.featured_media.alt | escape }}"
+                      class="collection-upsell__image"
+                      loading="lazy"
+                      width="{{ product.featured_media.width }}"
+                      height="{{ product.featured_media.height }}"
+                    >
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'collection-upsell__image placeholder' }}
+                  {%- endif -%}
+                </div>
+
+                <div class="collection-upsell__content">
+                  <h3 class="collection-upsell__title">
+                    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+                  </h3>
+
+                  <div class="collection-upsell__sku">
+                    {%- if product.variants.first.sku != blank -%}
+                      <span>{{ product.variants.first.sku }}</span>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="collection-upsell__price">
+                    {% render 'price', product: product, price_class: '' %}
+                  </div>
+
+                  <button
+                    class="collection-upsell__button button button--primary"
+                    data-product-id="{{ product.id }}"
+                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                    data-product-title="{{ product.title | escape }}"
+                    data-product-image="{{ product.featured_media | image_url: width: 300 }}"
+                    data-product-price="{{ product.selected_or_first_available_variant.price | money }}"
+                    data-product-url="{{ product.url }}"
+                    data-product-handle="{{ product.handle }}"
+                    {% if product.selected_or_first_available_variant.available == false %}
+                      disabled
+                    {% endif %}
+                  >
+                    {%- if product.selected_or_first_available_variant.available -%}
+                      {{ 'products.product.add_to_cart' | t }}
+                    {%- else -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endif -%}
+                  </button>
+                </div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <!-- Navigation with inline buttons and indicators -->
+      <div class="collection-upsell__navigation">
+        <button
+          type="button"
+          class="collection-upsell__nav collection-upsell__nav--prev"
+          aria-label="Previous products"
+          disabled
+        >
+          <span class="svg-wrapper">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+        </button>
+
+        <div class="collection-upsell__indicators" aria-hidden="true"></div>
+
+        <button type="button" class="collection-upsell__nav collection-upsell__nav--next" aria-label="Next products">
+          <span class="svg-wrapper">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upsell Modal -->
+<div class="upsell-modal" aria-modal="true" role="dialog" aria-labelledby="upsell-modal-title" hidden>
+  <div class="upsell-modal__overlay"></div>
+  <div class="upsell-modal__container">
+    <div class="upsell-modal__header">
+      <h2 id="upsell-modal-title">{{ 'products.product.item_added_to_cart' | t | default: 'Item Added to Cart' }}</h2>
+      <button
+        type="button"
+        class="upsell-modal__close-button"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+    <div class="upsell-modal__product-summary">
+      <div class="upsell-modal__product-image-container">
+        <img src="" alt="" class="upsell-modal__product-image" width="80" height="80">
+      </div>
+      <div class="upsell-modal__product-details">
+        <h3 class="upsell-modal__product-title"></h3>
+        <p class="upsell-modal__product-price"></p>
+      </div>
+    </div>
+
+    <div class="upsell-modal__upsell-title">
+      <h3>{{ 'products.product.recommended_products' | t | default: 'Recommended Products' }}</h3>
+    </div>
+
+    <div class="upsell-modal__carousel">
+      <ul class="upsell-modal__product-list"></ul>
+    </div>
+
+    <div class="upsell-modal__subtotal">
+      <span class="upsell-modal__subtotal-label">{{ 'products.product.subtotal' | t | default: 'Subtotal' }}</span>
+      <span class="upsell-modal__subtotal-price"></span>
+    </div>
+
+    <div class="upsell-modal__footer">
+      <button type="button" class="upsell-modal__confirm-button button button--primary">
+        {{ 'products.product.confirm_add' | t | default: 'Confirm' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection + Upsell Modal",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "carousel_rows",
+      "label": "Rows",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection with Upsell Modal",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

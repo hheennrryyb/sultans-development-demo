@@ -41,6 +41,12 @@
 
     {{ content_for_header }}
 
+    <!-- Storefront API access token -->
+    <script defer>
+      window.storefrontAccessToken = 'b69fdb2b50d123843dfe85613754f002';
+      window.shopifyDomain = '{{ shop.permanent_domain }}';
+    </script>
+
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
       assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'

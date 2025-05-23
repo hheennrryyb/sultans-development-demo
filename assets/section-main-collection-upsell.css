@@ -1,0 +1,560 @@
+/* Collection Upsell Section Styles */
+.collection-upsell {
+    margin-bottom: 3rem;
+}
+
+.collection-upsell__title {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: calc(var(--font-heading-scale) * 2rem);
+}
+
+/* Navigation Buttons */
+.collection-upsell__nav {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(var(--color-background), 0.9);
+    color: rgb(var(--color-foreground));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0.2rem 0.4rem rgba(var(--color-foreground), 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+}
+
+.collection-upsell__nav:hover:not(:disabled) {
+    background-color: rgb(var(--color-background));
+    box-shadow: 0 0.4rem 0.8rem rgba(var(--color-foreground), 0.15);
+    transform: scale(1.05);
+}
+
+.collection-upsell__nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: scale(0.9);
+}
+
+.collection-upsell__nav--prev .svg-wrapper {
+    transform: rotate(90deg);
+}
+
+.collection-upsell__nav--next .svg-wrapper {
+    transform: rotate(-90deg);
+}
+
+.collection-upsell__nav .svg-wrapper {
+    width: 1.6rem;
+    height: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Carousel Container */
+.collection-upsell__carousel-container {
+    position: relative;
+    /* overflow: hidden; */
+}
+
+/* Carousel Navigation Container */
+.collection-upsell__navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+/* Carousel Wrapper */
+.collection-upsell__carousel {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 1rem 0;
+}
+
+.collection-upsell__carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Grid Layout for Carousel */
+.collection-upsell__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(300px, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    scroll-snap-align: start;
+}
+
+/* Row configurations */
+.collection-upsell__grid--1-rows {
+    grid-template-rows: 1fr;
+    grid-auto-columns: minmax(280px, 1fr);
+}
+
+.collection-upsell__grid--2-rows {
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-columns: minmax(300px, 1fr);
+}
+
+.collection-upsell__grid--3-rows {
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-columns: minmax(320px, 1fr);
+}
+
+.collection-upsell__item {
+    scroll-snap-align: start;
+}
+
+.collection-upsell__card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--color-background);
+    border-radius: 0.4rem;
+    box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.04);
+    transition: all var(--duration-short) ease;
+    padding: 1rem;
+}
+
+.collection-upsell__card:hover {
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-foreground), 0.1);
+    transform: translateY(-0.2rem);
+}
+
+.collection-upsell__image-container {
+    position: relative;
+    margin: 0 auto 1rem;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Adjust image container height based on rows */
+.collection-upsell__grid--1-rows .collection-upsell__image-container {
+    height: 250px;
+}
+
+.collection-upsell__grid--2-rows .collection-upsell__image-container {
+    height: 200px;
+}
+
+.collection-upsell__grid--3-rows .collection-upsell__image-container {
+    height: 150px;
+}
+
+.collection-upsell__image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform var(--duration-long) ease;
+}
+
+.collection-upsell__card:hover .collection-upsell__image {
+    transform: scale(1.03);
+}
+
+.collection-upsell__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0.5rem 0;
+}
+
+.collection-upsell__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.4rem;
+    line-height: 1.3;
+}
+
+.collection-upsell__title a {
+    color: rgb(var(--color-foreground));
+    text-decoration: none;
+}
+
+.collection-upsell__title a:hover {
+    text-decoration: underline;
+}
+
+.collection-upsell__sku {
+    font-size: 1.1rem;
+    color: rgba(var(--color-foreground), 0.7);
+    margin-bottom: 0.5rem;
+}
+
+.collection-upsell__price {
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+
+.collection-upsell__button {
+    width: 100%;
+    margin-top: auto;
+    font-size: 1.2rem;
+    padding: 0.8rem 1rem;
+}
+
+/* Adjust button size based on rows */
+.collection-upsell__grid--3-rows .collection-upsell__button {
+    font-size: 1.1rem;
+    padding: 0.6rem 0.8rem;
+}
+
+/* Scroll Indicators */
+.collection-upsell__indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    min-height: 2rem;
+    padding: 0.6rem 0;
+}
+
+.collection-upsell__indicator {
+    width: 0.8rem;
+    height: 0.8rem;
+    min-width: 0.8rem;
+    min-height: 0.8rem;
+    max-width: 0.8rem;
+    max-height: 0.8rem;
+    border-radius: 50%;
+    background-color: rgba(var(--color-foreground), 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    flex-grow: 0;
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+}
+
+.collection-upsell__indicator:hover {
+    background-color: rgba(var(--color-foreground), 0.6);
+    transform: scale(1.1);
+}
+
+.collection-upsell__indicator.active {
+    background-color: rgba(var(--color-foreground), 0.8);
+    transform: scale(1.3);
+}
+
+.collection-upsell__indicator:focus {
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+    outline-offset: 0.2rem;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 990px) {
+    .collection-upsell__navigation {
+        gap: 1.5rem;
+    }
+
+    .collection-upsell__nav {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+}
+
+@media screen and (max-width: 749px) {
+    .collection-upsell__grid {
+        grid-auto-columns: minmax(250px, 1fr);
+    }
+
+    .collection-upsell__grid--1-rows {
+        grid-auto-columns: minmax(240px, 1fr);
+    }
+
+    .collection-upsell__grid--2-rows {
+        grid-auto-columns: minmax(250px, 1fr);
+    }
+
+    .collection-upsell__grid--3-rows {
+        grid-auto-columns: minmax(260px, 1fr);
+    }
+
+    .collection-upsell__title {
+        font-size: calc(var(--font-heading-scale) * 1.6rem);
+    }
+
+    .collection-upsell__navigation {
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .collection-upsell__nav {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .collection-upsell__nav .svg-wrapper {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+    .collection-upsell__image-container {
+        height: 180px;
+    }
+
+    .collection-upsell__grid--1-rows .collection-upsell__image-container {
+        height: 220px;
+    }
+
+    .collection-upsell__grid--3-rows .collection-upsell__image-container {
+        height: 140px;
+    }
+}
+
+/* Modal Styles */
+.upsell-modal {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease;
+}
+
+.upsell-modal.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 0.3s ease;
+}
+
+.upsell-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(var(--color-foreground), 0.4);
+    cursor: pointer;
+}
+
+.upsell-modal__container {
+    position: relative;
+    background-color: rgb(var(--color-background));
+    border-radius: 0.4rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0.5rem 1rem rgba(var(--color-foreground), 0.1);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.upsell-modal.visible .upsell-modal__container {
+    transform: scale(1);
+}
+
+.upsell-modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    padding-bottom: 1rem;
+}
+
+.upsell-modal__close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    color: rgb(var(--color-foreground));
+}
+
+.upsell-modal__product-summary {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+}
+
+.upsell-modal__product-image-container {
+    width: 8rem;
+    height: 8rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+.upsell-modal__product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.upsell-modal__product-details {
+    flex-grow: 1;
+}
+
+.upsell-modal__product-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.6rem;
+}
+
+.upsell-modal__product-price {
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.upsell-modal__upsell-title {
+    margin-bottom: 1.5rem;
+}
+
+.upsell-modal__carousel {
+    margin-bottom: 2rem;
+}
+
+.upsell-modal__product-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.upsell-product-card {
+    display: flex;
+    flex-direction: column;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.upsell-product-card.selected {
+    border-color: rgba(var(--color-button), 1);
+    background-color: rgba(var(--color-button), 0.06);
+}
+
+.upsell-product-card__image-container {
+    width: 100%;
+    height: 10rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upsell-product-card__image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.upsell-product-card__title {
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem;
+    font-weight: 500;
+}
+
+.upsell-product-card__price {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+}
+
+.upsell-product-card__toggle {
+    margin-top: auto;
+    background-color: transparent;
+    border: 0.1rem solid rgba(var(--color-button), 1);
+    border-radius: 0.4rem;
+    color: rgba(var(--color-button), 1);
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.upsell-product-card.selected .upsell-product-card__toggle {
+    background-color: rgba(var(--color-button), 1);
+    color: rgba(var(--color-button-text), 1);
+}
+
+.upsell-modal__subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem 0;
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+}
+
+.upsell-modal__subtotal-label {
+    font-size: 1.4rem;
+}
+
+.upsell-modal__subtotal-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.upsell-modal__footer {
+    display: flex;
+    justify-content: center;
+}
+
+.upsell-modal__confirm-button {
+    width: 100%;
+    font-size: 1.4rem;
+    padding: 1.2rem 2rem;
+}
+
+/* Focus styles for accessibility */
+.upsell-modal__close-button:focus,
+.upsell-product-card__toggle:focus,
+.upsell-modal__confirm-button:focus {
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+    outline-offset: 0.2rem;
+    box-shadow: 0 0 0 0.2rem rgb(var(--color-background)),
+        0 0 0 0.4rem rgba(var(--color-foreground), 0.5);
+}
+
+/* Modal responsive styles */
+@media screen and (max-width: 749px) {
+    .upsell-modal__product-list {
+        grid-template-columns: 1fr;
+    }
+
+    .upsell-modal__container {
+        max-width: calc(100% - 3rem);
+        padding: 1.5rem;
+    }
+}

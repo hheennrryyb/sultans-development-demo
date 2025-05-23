@@ -68,7 +68,7 @@ When "Add to Cart" is clicked, modal opens:
 Use `collection.products` to render cards:
 
 ```liquid
-{% for product in collections['fe-case-study'].products %}
+{% for product in collections['automated-collection'].products %}
 ```
 
 ### 2. **Fetch SKU**
@@ -125,7 +125,7 @@ Load upsell products dynamically:
       "type": "collection",
       "id": "collection",
       "label": "Collection",
-      "default": "fe-case-study"
+      "default": "automated-collection"
     },
     {
       "type": "range",
