@@ -4,6 +4,7 @@ class CollectionUpsell {
     this.modalOverlay = document.querySelector('.upsell-modal__overlay');
     this.modalCloseButton = document.querySelector('.upsell-modal__close-button');
     this.modalConfirmButton = document.querySelector('.upsell-modal__confirm-button');
+    this.modalCheckoutButton = document.querySelector('.upsell-modal__checkout-button');
     this.productList = document.querySelector('.upsell-modal__product-list');
     this.subtotalPrice = document.querySelector('.upsell-modal__subtotal-price');
     this.modalProductImage = document.querySelector('.upsell-modal__product-image');
@@ -37,6 +38,7 @@ class CollectionUpsell {
     this.modalOverlay.addEventListener('click', this.closeModal.bind(this));
     this.modalCloseButton.addEventListener('click', this.closeModal.bind(this));
     this.modalConfirmButton.addEventListener('click', this.handleConfirmAddToCart.bind(this));
+    this.modalCheckoutButton.addEventListener('click', this.handleAcceleratedCheckout.bind(this));
     
     // Handle ESC key to close modal
     document.addEventListener('keydown', (event) => {
@@ -63,12 +65,6 @@ class CollectionUpsell {
     
     // Add scroll event listener to update navigation states
     this.carousel.addEventListener('scroll', this.handleCarouselScroll.bind(this));
-    
-    // Add keyboard navigation
-    this.carousel.addEventListener('keydown', this.handleCarouselKeydown.bind(this));
-    
-    // Add touch/swipe support for mobile
-    this.addTouchSupport();
     
     // Generate scroll indicators
     this.generateIndicators();
@@ -177,55 +173,6 @@ class CollectionUpsell {
     });
   }
   
-  handleCarouselKeydown(event) {
-    switch (event.key) {
-      case 'ArrowLeft':
-        event.preventDefault();
-        this.scrollCarousel('prev');
-        break;
-      case 'ArrowRight':
-        event.preventDefault();
-        this.scrollCarousel('next');
-        break;
-      case 'Home':
-        event.preventDefault();
-        this.carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        break;
-      case 'End':
-        event.preventDefault();
-        this.carousel.scrollTo({ 
-          left: this.carousel.scrollWidth, 
-          behavior: 'smooth' 
-        });
-        break;
-    }
-  }
-  
-  addTouchSupport() {
-    let startX = 0;
-    let startTime = 0;
-    
-    this.carousel.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startTime = Date.now();
-    }, { passive: true });
-    
-    this.carousel.addEventListener('touchend', (e) => {
-      const endX = e.changedTouches[0].clientX;
-      const endTime = Date.now();
-      const diffX = startX - endX;
-      const diffTime = endTime - startTime;
-      
-      // Detect swipe (minimum distance and maximum time)
-      if (Math.abs(diffX) > 50 && diffTime < 300) {
-        if (diffX > 0) {
-          this.scrollCarousel('next');
-        } else {
-          this.scrollCarousel('prev');
-        }
-      }
-    }, { passive: true });
-  }
   
   handleAddToCart(event) {
     event.preventDefault();
@@ -607,6 +554,51 @@ class CollectionUpsell {
       // Reset button state
       this.modalConfirmButton.removeAttribute('disabled');
       this.modalConfirmButton.textContent = 'Confirm';
+    }
+  }
+  
+  async handleAcceleratedCheckout() {
+    // Show loading state
+    this.modalCheckoutButton.setAttribute('disabled', 'true');
+    this.modalCheckoutButton.textContent = 'Processing...';
+    
+    try {
+      // Consolidate all items to add to cart into a single state
+      const itemsToAdd = [];
+      
+      // Add main product to the items array
+      itemsToAdd.push({
+        id: this.mainProduct.variantId,
+        quantity: 1
+      });
+      
+      // Add selected upsell products to the items array
+      this.selectedUpsellProducts.forEach(product => {
+        console.log('Adding upsell product variant ID for checkout:', product.variantId);
+        itemsToAdd.push({
+          id: product.variantId,
+          quantity: 1
+        });
+      });
+      
+      console.log('Items to add for accelerated checkout:', itemsToAdd);
+      
+      // Add all items to cart in a single batch operation
+      await this.addItemsToCart(itemsToAdd);
+      
+      // Close modal
+      this.closeModal();
+      
+      // Redirect directly to checkout
+      window.location.href = '/checkout';
+      
+    } catch (error) {
+      console.error('Error during accelerated checkout:', error);
+      alert('There was an error processing your checkout. Please try again.');
+    } finally {
+      // Reset button state (in case redirect fails)
+      this.modalCheckoutButton.removeAttribute('disabled');
+      this.modalCheckoutButton.textContent = 'Buy Now';
     }
   }
   

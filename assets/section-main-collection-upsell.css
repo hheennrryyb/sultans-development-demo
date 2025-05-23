@@ -58,7 +58,7 @@
 /* Carousel Container */
 .collection-upsell__carousel-container {
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 /* Carousel Navigation Container */
@@ -359,6 +359,12 @@
     bottom: 0;
     background-color: rgba(var(--color-foreground), 0.4);
     cursor: pointer;
+    display: block;
+    opacity: 1;
+}
+
+.upsell-modal[hidden] .upsell-modal__overlay {
+    display: none;
 }
 
 .upsell-modal__container {
@@ -494,7 +500,6 @@
     margin-top: auto;
     background-color: transparent;
     border: 0.1rem solid rgba(var(--color-button), 1);
-    border-radius: 0.4rem;
     color: rgba(var(--color-button), 1);
     cursor: pointer;
     padding: 0.6rem 1rem;
@@ -529,12 +534,32 @@
 .upsell-modal__footer {
     display: flex;
     justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.upsell-modal__confirm-button {
-    width: 100%;
+.upsell-modal__confirm-button,
+.upsell-modal__checkout-button {
+    flex: 1;
+    min-width: 200px;
     font-size: 1.4rem;
     padding: 1.2rem 2rem;
+}
+
+.upsell-modal__checkout-button {
+    background-color: rgba(var(--color-foreground), 0.1);
+    color: rgb(var(--color-foreground));
+    border: 0.1rem solid rgba(var(--color-foreground), 0.3);
+}
+
+.upsell-modal__checkout-button:hover:not(:disabled) {
+    background-color: rgba(var(--color-foreground), 0.15);
+    border-color: rgba(var(--color-foreground), 0.5);
+}
+
+.upsell-modal__checkout-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Focus styles for accessibility */
@@ -556,5 +581,18 @@
     .upsell-modal__container {
         max-width: calc(100% - 3rem);
         padding: 1.5rem;
+    }
+
+    .upsell-modal__footer {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .upsell-modal__confirm-button,
+    .upsell-modal__checkout-button {
+        width: 100%;
+        min-width: auto;
+        font-size: 1.3rem;
+        padding: 1rem 1.5rem;
     }
 }
