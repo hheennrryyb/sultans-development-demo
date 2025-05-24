@@ -122,6 +122,9 @@ class CollectionUpsell {
     // Only show indicators if content overflows
     if (totalWidth <= visibleWidth) {
       this.indicators.style.display = 'none';
+      // Hide navigation buttons when no indicators are displayed
+      if (this.prevButton) this.prevButton.style.display = 'none';
+      if (this.nextButton) this.nextButton.style.display = 'none';
       return;
     }
     
