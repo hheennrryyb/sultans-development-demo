@@ -58,7 +58,6 @@
 /* Carousel Container */
 .collection-upsell__carousel-container {
     position: relative;
-    overflow: hidden;
 }
 
 /* Carousel Navigation Container */
@@ -125,13 +124,13 @@
     position: relative;
     background-color: var(--color-background);
     border-radius: 0.4rem;
-    box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.04);
+    /* box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.04); */
     transition: all var(--duration-short) ease;
     padding: 1rem;
 }
 
 .collection-upsell__card:hover {
-    box-shadow: 0 0 0 0.2rem rgba(var(--color-foreground), 0.1);
+    /* box-shadow: 0 0 0 0.2rem rgba(var(--color-foreground), 0.1); */
     transform: translateY(-0.2rem);
 }
 
@@ -307,8 +306,8 @@
     }
 
     .collection-upsell__nav {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 3rem;
+        height: 3rem;
     }
 
     .collection-upsell__nav .svg-wrapper {
@@ -361,10 +360,6 @@
     cursor: pointer;
     display: block;
     opacity: 1;
-}
-
-.upsell-modal[hidden] .upsell-modal__overlay {
-    display: none;
 }
 
 .upsell-modal__container {

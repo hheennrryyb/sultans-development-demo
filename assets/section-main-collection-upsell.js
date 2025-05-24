@@ -77,7 +77,7 @@ class CollectionUpsell {
   }
   
   scrollCarousel(direction) {
-    const scrollAmount = this.getScrollAmount();
+    const scrollAmount = this.carousel.clientWidth;
     const currentScroll = this.carousel.scrollLeft;
     
     if (direction === 'prev') {
@@ -91,15 +91,6 @@ class CollectionUpsell {
         behavior: 'smooth'
       });
     }
-  }
-  
-  getScrollAmount() {
-    // Calculate scroll amount based on container width and number of visible items
-    const containerWidth = this.carousel.clientWidth;
-    const rows = parseInt(this.carouselContainer.dataset.rows) || 2;
-    
-    // Scroll by the width of the container minus some overlap for context
-    return containerWidth * 0.8;
   }
   
   handleCarouselScroll() {
@@ -172,7 +163,9 @@ class CollectionUpsell {
       indicator.classList.toggle('active', index === currentSection);
     });
   }
-  
+
+
+  // Modal functionality
   
   handleAddToCart(event) {
     event.preventDefault();
@@ -243,11 +236,7 @@ class CollectionUpsell {
         })
       });
       
-      console.log('Response status:', response.status);
-      console.log('Response status text:', response.statusText);
-      
       const result = await response.json();
-      console.log('GraphQL response:', result);
       
       // Check for GraphQL errors specifically
       if (result.errors) {
@@ -279,7 +268,6 @@ class CollectionUpsell {
         return;
       }
       
-      console.log(`Found ${productGids.length} upsell product GIDs:`, productGids);
       
       // Fetch all upsell products with a single GraphQL call
       const upsellProducts = await this.fetchUpsellProductsByGids(productGids);
@@ -335,7 +323,6 @@ class CollectionUpsell {
         }
       `;
       
-      console.log('Fetching upsell products with GIDs:', productGids);
       
       // Make the GraphQL request to fetch all upsell products
       const response = await fetch(`https://${window.shopifyDomain}/api/2023-07/graphql.json`, {
@@ -353,7 +340,6 @@ class CollectionUpsell {
       });
       
       const result = await response.json();
-      console.log('Upsell products GraphQL response:', result);
       
       // Check for GraphQL errors
       if (result.errors) {
