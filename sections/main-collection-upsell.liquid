@@ -33,18 +33,20 @@
             <li class="collection-upsell__item" role="listitem">
               <div class="collection-upsell__card">
                 <div class="collection-upsell__image-container">
-                  {%- if product.featured_media -%}
-                    <img
-                      src="{{ product.featured_media | image_url: width: 533 }}"
-                      alt="{{ product.featured_media.alt | escape }}"
-                      class="collection-upsell__image"
-                      loading="lazy"
-                      width="{{ product.featured_media.width }}"
-                      height="{{ product.featured_media.height }}"
-                    >
-                  {%- else -%}
-                    {{ 'product-1' | placeholder_svg_tag: 'collection-upsell__image placeholder' }}
-                  {%- endif -%}
+                  <a href="{{ product.url }}">
+                    {%- if product.featured_media -%}
+                      <img
+                        src="{{ product.featured_media | image_url: width: 533 }}"
+                        alt="{{ product.featured_media.alt | escape }}"
+                        class="collection-upsell__image"
+                        loading="lazy"
+                        width="{{ product.featured_media.width }}"
+                        height="{{ product.featured_media.height }}"
+                      >
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'collection-upsell__image placeholder' }}
+                    {%- endif -%}
+                  </a>
                 </div>
 
                 <div class="collection-upsell__content">
