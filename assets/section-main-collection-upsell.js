@@ -419,12 +419,19 @@ class CollectionUpsell {
     // Create product cards
     products.forEach(product => {
       const variant = product.variants[0]; // Use first variant
+      const isAvailable = variant.available; // Check if product is available for sale
       
       const productCard = document.createElement('li');
       productCard.className = 'upsell-product-card';
       productCard.dataset.productId = product.id;
       productCard.dataset.variantId = variant.id;
       productCard.dataset.price = variant.price;
+      productCard.dataset.available = isAvailable; // Store availability
+      
+      // Add sold out class if not available
+      if (!isAvailable) {
+        productCard.classList.add('upsell-product-card--sold-out');
+      }
       
       const imageContainer = document.createElement('div');
       imageContainer.className = 'upsell-product-card__image-container';
@@ -447,8 +454,16 @@ class CollectionUpsell {
       const toggleButton = document.createElement('button');
       toggleButton.className = 'upsell-product-card__toggle';
       toggleButton.type = 'button';
-      toggleButton.textContent = 'Add';
-      toggleButton.addEventListener('click', () => this.toggleUpsellProduct(productCard));
+      
+      // Set button state based on availability
+      if (isAvailable) {
+        toggleButton.textContent = 'Add';
+        toggleButton.addEventListener('click', () => this.toggleUpsellProduct(productCard));
+      } else {
+        toggleButton.textContent = 'Sold Out';
+        toggleButton.disabled = true;
+        toggleButton.classList.add('upsell-product-card__toggle--sold-out');
+      }
       
       imageContainer.appendChild(image);
       productCard.appendChild(imageContainer);
@@ -464,10 +479,15 @@ class CollectionUpsell {
   }
   
   toggleUpsellProduct(productCard) {
+    // Check if product is available before allowing toggle
+    const isAvailable = productCard.dataset.available === 'true';
+    if (!isAvailable) {
+      return; // Don't allow interaction with sold out products
+    }
+    
     const productId = productCard.dataset.productId;
     const variantId = productCard.dataset.variantId;
     const price = parseInt(productCard.dataset.price);
-    console.log(productCard);
     
     // Toggle selected state
     productCard.classList.toggle('selected');

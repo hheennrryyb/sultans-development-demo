@@ -507,6 +507,50 @@
     color: rgba(var(--color-button-text), 1);
 }
 
+/* Sold out product card styles */
+.upsell-product-card--sold-out {
+    opacity: 0.6;
+    position: relative;
+}
+
+.upsell-product-card--sold-out::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(var(--color-foreground), 0.05);
+    border-radius: 0.4rem;
+    pointer-events: none;
+}
+
+.upsell-product-card--sold-out .upsell-product-card__image {
+    filter: grayscale(50%);
+}
+
+.upsell-product-card--sold-out .upsell-product-card__title {
+    color: rgba(var(--color-foreground), 0.6);
+}
+
+.upsell-product-card--sold-out .upsell-product-card__price {
+    color: rgba(var(--color-foreground), 0.6);
+}
+
+/* Sold out button styles */
+.upsell-product-card__toggle--sold-out {
+    background-color: rgba(var(--color-foreground), 0.1) !important;
+    color: rgba(var(--color-foreground), 0.6) !important;
+    border-color: rgba(var(--color-foreground), 0.2) !important;
+    cursor: not-allowed !important;
+}
+
+.upsell-product-card__toggle--sold-out:hover {
+    background-color: rgba(var(--color-foreground), 0.1) !important;
+    color: rgba(var(--color-foreground), 0.6) !important;
+    transform: none !important;
+}
+
 .upsell-modal__subtotal {
     display: flex;
     justify-content: space-between;
