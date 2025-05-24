@@ -221,8 +221,6 @@ class CollectionUpsell {
       
       // Create the product ID in Shopify's GID format
       const formattedProductId = `gid://shopify/Product/${productId}`;
-      console.log('Making GraphQL request with token:', window.storefrontAccessToken);
-      console.log('Product ID:', formattedProductId);
       
       // Make the GraphQL request to the Storefront API
       const response = await fetch(`https://${window.shopifyDomain}/api/2023-07/graphql.json`, {
@@ -275,8 +273,6 @@ class CollectionUpsell {
       // Fetch all upsell products with a single GraphQL call
       const upsellProducts = await this.fetchUpsellProductsByGids(productGids);
       this.upsellProducts = upsellProducts;
-      
-      console.log(`Successfully loaded ${this.upsellProducts.length} upsell products`);
       
       // Render the upsell products
       this.renderUpsellProducts(this.upsellProducts);
@@ -583,14 +579,11 @@ class CollectionUpsell {
       
       // Add selected upsell products to the items array
       this.selectedUpsellProducts.forEach(product => {
-        console.log('Adding upsell product variant ID for checkout:', product.variantId);
         itemsToAdd.push({
           id: product.variantId,
           quantity: 1
         });
       });
-      
-      console.log('Items to add for accelerated checkout:', itemsToAdd);
       
       // Add all items to cart in a single batch operation
       await this.addItemsToCart(itemsToAdd);
